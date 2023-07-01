@@ -7,7 +7,7 @@ interface Column {
 	todos: Todo[];
 }
 
-export type TypedColumns = 'todo' | 'inprogess' | 'done';
+export type TypedColumn = 'todo' | 'inprogress' | 'done';
 
 interface Todo {
 	$id: string;
