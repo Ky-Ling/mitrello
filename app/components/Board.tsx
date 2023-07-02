@@ -8,6 +8,7 @@ import {
 	DraggableId,
 	DropResult,
 } from 'react-beautiful-dnd';
+import Column from './Column';
 
 const Board: React.FC = () => {
 	const [board, getBoard] = useBoardStore((state) => [
@@ -20,6 +21,7 @@ const Board: React.FC = () => {
 	}, [getBoard]);
 
 	const handleOnDragEnd = (result: DropResult) => {};
+
 	return (
 		<DragDropContext onDragEnd={handleOnDragEnd}>
 			<Droppable droppableId="board" direction="horizontal" type="column">
