@@ -2,7 +2,7 @@ export interface Board {
 	columns: Map<TypedColumns, Column>;
 }
 
-interface Column {
+export interface Column {
 	id: TypedColumns;
 	todos: Todo[];
 }
