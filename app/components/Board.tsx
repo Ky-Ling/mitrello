@@ -35,7 +35,7 @@ const Board: React.FC = () => {
 		if (type === 'column') {
 			const entries = Array.from(board.columns.entries());
 
-			const [removed] = entries.splice(source.index, 1);
+			const [removed] = entries?.splice(source.index, 1);
 			entries.splice(destination.index, 0, removed);
 			const rearrangedColumns = new Map(entries);
 			setBoardState({
@@ -45,7 +45,7 @@ const Board: React.FC = () => {
 		}
 
 		// This step is needed as the indexes are stored as numbers 0, 1, 2 etc. instead of id's with DND library
-		const columns = Array.from(board.columns);
+		const columns = Array.from(board?.columns);
 		const startColIndex = columns[Number(source.droppableId)];
 		const finishColIndex = columns[Number(destination.droppableId)];
 
