@@ -3,6 +3,7 @@
 import { Todo, TypedColumn } from '@/typings';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import {
 	DraggableProvidedDraggableProps,
 	DraggableProvidedDragHandleProps,
@@ -28,9 +29,23 @@ const TodoCard: React.FC<TodoCardProps> = ({
 	draggableProps,
 	dragHandleProps,
 }) => {
-	const deleteTask = useBoardStore((state) => state.deleteTask);
+	const [loading, deleteTask] = useBoardStore((state) => [
+		state.loading,
+		state.deleteTask,
+	]);
 
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+	const handleDeleteTask = () => {
+		const deleteToastId = toast.loading('Deleting task...');
+
+		deleteTask(index, todo, id);
+
+		if (!loading)
+			toast.success('Delete successfully', {
+				id: deleteToastId,
+			});
+	};
 
 	useEffect(() => {
 		if (todo.image) {
@@ -55,7 +70,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
 			<div className="flex justify-between items-center p-5">
 				<p className="">{todo.title}</p>
 				<button
-					onClick={() => deleteTask(index, todo, id)}
+					onClick={handleDeleteTask}
 					className=" text-red-500 hover:text-red-600"
 				>
 					<XCircleIcon className="ml-5 h-8 w-8" />

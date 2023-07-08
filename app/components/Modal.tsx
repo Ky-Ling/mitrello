@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, Fragment } from 'react';
+import { toast } from 'react-hot-toast';
 import { Dialog, Transition } from '@headlessui/react';
 import { useModalStore } from '@/store/ModalStore';
 import { useBoardStore } from '@/store/BoardStore';
@@ -11,15 +12,23 @@ import { PhotoIcon } from '@heroicons/react/24/solid';
 export function Modal() {
 	const imagePickerRef = useRef<HTMLInputElement>(null);
 
-	const [image, newTaskType, addTask, newTaskInput, setNewTaskInput, setImage] =
-		useBoardStore((state) => [
-			state.image,
-			state.newTaskType,
-			state.addTask,
-			state.newTaskInput,
-			state.setNewTaskInput,
-			state.setImage,
-		]);
+	const [
+		loading,
+		image,
+		newTaskType,
+		addTask,
+		newTaskInput,
+		setNewTaskInput,
+		setImage,
+	] = useBoardStore((state) => [
+		state.loading,
+		state.image,
+		state.newTaskType,
+		state.addTask,
+		state.newTaskInput,
+		state.setNewTaskInput,
+		state.setImage,
+	]);
 
 	const [isOpen, closeModal] = useModalStore((state) => [
 		state.isOpen,
@@ -29,8 +38,14 @@ export function Modal() {
 	const handleNewTaskSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!newTaskInput) return;
+		const addTaskToastId = toast.loading('Adding your task...');
 
 		addTask(newTaskInput, newTaskType, image);
+		if (!loading) {
+			toast.success('Task added successfully!', {
+				id: addTaskToastId,
+			});
+		}
 
 		setImage(null);
 		closeModal();

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
 import { MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import Avatar from 'react-avatar';
 import { useBoardStore } from '@/store/BoardStore';
@@ -27,6 +28,10 @@ const Header: React.FC = () => {
 			setIsLoading(false);
 		};
 		fetchSuggestionFunc();
+
+		if (!isLoading) {
+			toast.success('Loaded your tasks successfully');
+		}
 	}, [board]);
 
 	return (

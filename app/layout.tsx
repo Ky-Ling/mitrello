@@ -1,5 +1,6 @@
 import './globals.css';
 import { Modal } from './components/Modal';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata = {
 	title: 'Trello Clone',
@@ -16,6 +17,7 @@ export default function RootLayout({
 			<body className="bg-[#F5F6F8]">
 				{children}
 				<Modal />
+				<Toaster />
 			</body>
 		</html>
 	);

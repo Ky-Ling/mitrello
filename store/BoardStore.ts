@@ -6,7 +6,9 @@ import uploadImage from '@/lib/uploadImage';
 import { data } from 'autoprefixer';
 
 interface BoardState {
+	loading: boolean;
 	board: Board;
+	setLoading: (loading: boolean) => void;
 	getBoard: () => void;
 	setBoardState: (board: Board) => void;
 	updateTodoInDB: (todo: Todo, columnId: TypedColumn) => void;
@@ -30,10 +32,12 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 	board: {
 		columns: new Map<TypedColumn, Column>(),
 	},
+	loading: false,
 	searchString: '',
 	newTaskInput: '',
 	newTaskType: 'todo',
 	image: null,
+	setLoading: (loading) => set({ loading }),
 	setSearchString(searchString) {
 		set({ searchString });
 	},
@@ -44,6 +48,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 	setBoardState: (board) => set({ board }),
 
 	deleteTask: async (taskIndex: number, todo: Todo, id: TypedColumn) => {
+		set({ loading: true });
 		const newColumns = new Map(get().board.columns);
 
 		// delete todoId from newColumns
@@ -60,6 +65,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 			process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!,
 			todo.$id
 		);
+		set({ loading: false });
 	},
 
 	setNewTaskInput: (input: string) => set({ newTaskInput: input }),
@@ -82,6 +88,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 	addTask: async (todo: string, columnId: TypedColumn, image: File | null) => {
 		// let file: Image | undefined;
 		let file: any | undefined;
+		set({ loading: true });
 
 		if (image) {
 			const fileUploaded = await uploadImage(image);
@@ -129,6 +136,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 				newColumns.get(columnId)?.todos.push(newTodo);
 			}
 
+			set({ loading: false });
 			return {
 				board: {
 					columns: newColumns,
