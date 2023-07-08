@@ -1,4 +1,5 @@
 import { useBoardStore } from '@/store/BoardStore';
+import { useModalStore } from '@/store/ModalStore';
 import { Todo, TypedColumn } from '@/typings';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import React from 'react';
@@ -21,6 +22,7 @@ const idToColumnText: {
 
 const Column: React.FC<ColumnProps> = ({ todos, id, index }) => {
 	const [searchString] = useBoardStore((state) => [state.searchString]);
+	const openModal = useModalStore((state) => state.openModal);
 
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -85,7 +87,10 @@ const Column: React.FC<ColumnProps> = ({ todos, id, index }) => {
 									{provided.placeholder}
 
 									<div className="flex text-end">
-										<button className="text-green-500 hover:text-green-600">
+										<button
+											onClick={openModal}
+											className="text-green-500 hover:text-green-600"
+										>
 											<PlusCircleIcon className="h-10 w-10 " />
 										</button>
 									</div>
