@@ -48,7 +48,6 @@ const TaskTypeRadioGroup: React.FC = () => {
 										? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300'
 										: ''
 								}
-
                 ${
 									checked
 										? `${type.color} bg-opacity-75 text-white`
